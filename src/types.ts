@@ -12,3 +12,8 @@ export interface TypedRequestBody<T> extends express.Request {
   body: T
 }
 
+export interface KookResponse {
+  code: number
+  message: string
+  data: any
+}

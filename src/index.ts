@@ -3,6 +3,7 @@ import 'dotenv/config'
 import express from 'express'
 import bodyParser from 'body-parser'
 import { sendBuildInfo as sendDiscordBuildInfo } from './discordBot'
+import { sendBuildInfo as sendKookBuildInfo } from './kookBot'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -15,14 +16,21 @@ if (authToken === undefined || authToken === '') {
 
 app.use(bodyParser.json())
 
-app.post('/guizhan-builds', (req: TypedRequestBody<BuildInfo>, res) => {
+app.post('/guizhan-builds', async (req: TypedRequestBody<BuildInfo>, res) => {
   if (req.header('Authorization') !== authToken) {
     res.status(401).send('Unauthorized')
     return
   }
-  sendDiscordBuildInfo(req.body)
+  console.log('收到推送', req.body)
+  console.log('发送Discord信息')
+  await sendDiscordBuildInfo(req.body)
+  console.log('发送Kook信息')
+  await sendKookBuildInfo(req.body)
+  console.log('发送完成')
   res.status(200).send('OK')
 })
+
+app.post('/kook')
 
 app.listen(port, () => {
   console.log('listening on port: ' + port)
