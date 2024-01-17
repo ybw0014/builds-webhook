@@ -1,8 +1,8 @@
 import { Client, Events, GatewayIntentBits, TextChannel, EmbedBuilder, ChannelType } from 'discord.js'
 import { BuildInfo } from './types'
 
-const token = process.env.DISCORD_TOKEN
-const channelId = process.env.DISCORD_CHANNEL_ID
+const token = process.env.DISCORD_TOKEN ?? ''
+const channelId = process.env.DISCORD_CHANNEL_ID ?? ''
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds]
@@ -21,7 +21,7 @@ export async function sendBuildInfo(buildInfo: BuildInfo) {
   const channel = client.channels.cache.get(channelId) as TextChannel
   const embed = new EmbedBuilder()
     .setTitle(`${buildInfo.user}/${buildInfo.repo}:${buildInfo.branch} (${buildInfo.version})`)
-    .setURL(`https://builds.guizhanss.net/${buildInfo.user}/${buildInfo.repo}/${buildInfo.branch}/${buildInfo.version}`)
+    .setURL(`https://builds.guizhanss.com/${buildInfo.user}/${buildInfo.repo}/${buildInfo.branch}/${buildInfo.version}`)
     .setColor(buildInfo.success ? '#00ff00' : '#ff0000')
     .setDescription(buildInfo.success ? '构建成功' : '构建失败')
     .setTimestamp(Date.now())

@@ -7,12 +7,13 @@ import dayjsTimezone from 'dayjs/plugin/timezone'
 dayjs.extend(dayjsUtc)
 dayjs.extend(dayjsTimezone)
 
-const token = process.env.KOOK_TOKEN || ''
-const channelId = process.env.KOOK_CHANNEL_ID || ''
+const token = process.env.KOOK_TOKEN ?? ''
+const channelId = process.env.KOOK_CHANNEL_ID ?? ''
 
 axios.defaults.baseURL = 'https://www.kookapp.cn'
 axios.defaults.headers.common['Authorization'] = `Bot ${token}`
-axios.defaults.headers.common['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_0; en-US) Gecko/20100101 Firefox/71.1'
+axios.defaults.headers.common['User-Agent'] =
+  'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_0; en-US) Gecko/20100101 Firefox/71.1'
 
 export async function sendBuildInfo(buildInfo: BuildInfo) {
 
@@ -27,7 +28,8 @@ export async function sendBuildInfo(buildInfo: BuildInfo) {
         type: 'section',
         text: {
           type: 'kmarkdown',
-          content: `[${buildInfo.user}/${buildInfo.repo}:${buildInfo.branch} (#${buildInfo.version})](https://builds.guizhanss.cn/${buildInfo.user}/${buildInfo.repo}/${buildInfo.branch}/${buildInfo.version})`
+          content: `[${buildInfo.user}/${buildInfo.repo}:${buildInfo.branch} (#${buildInfo.version})]` +
+            `(https://builds.guizhanss.cn/${buildInfo.user}/${buildInfo.repo}/${buildInfo.branch}/${buildInfo.version})`
         }
       },
       {

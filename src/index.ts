@@ -6,7 +6,7 @@ import { sendBuildInfo as sendDiscordBuildInfo } from './discordBot'
 import { sendBuildInfo as sendKookBuildInfo } from './kookBot'
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT ?? 3000
 const authToken = process.env.AUTH_TOKEN
 
 if (authToken === undefined || authToken === '') {
