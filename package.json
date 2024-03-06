@@ -4,11 +4,6 @@
   "scripts": {
     "start": "ts-node src/index.ts"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
   "devDependencies": {
     "@guizhan/eslint-config": "^0.2.2",
     "@types/body-parser": "^1.19.2",
