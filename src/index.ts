@@ -1,9 +1,9 @@
-import { TypedRequestBody, BuildInfo } from './types'
 import 'dotenv/config'
 import express from 'express'
 import bodyParser from 'body-parser'
-import { sendBuildInfo as sendDiscordBuildInfo } from './discordBot'
-import { sendBuildInfo as sendKookBuildInfo } from './kookBot'
+import type { BuildInfo } from '~/types'
+import type { TypedRequestBody } from '~/types/express'
+import { NotificationService } from '~/services/NotificationService'
 
 const app = express()
 const port = process.env.PORT ?? 3000
@@ -14,6 +14,8 @@ if (authToken === undefined || authToken === '') {
   process.exit(1)
 }
 
+const notificationService = new NotificationService()
+
 app.use(bodyParser.json())
 
 app.post('/guizhan-builds', async (req: TypedRequestBody<BuildInfo>, res) => {
@@ -21,17 +23,12 @@ app.post('/guizhan-builds', async (req: TypedRequestBody<BuildInfo>, res) => {
     res.status(401).send('Unauthorized')
     return
   }
-  console.log('收到推送', req.body)
-  console.log('发送Discord信息')
-  await sendDiscordBuildInfo(req.body)
-  console.log('发送Kook信息')
-  await sendKookBuildInfo(req.body)
-  console.log('发送完成')
+  const buildInfo = req.body
+  console.log('收到推送', buildInfo)
+  notificationService.notify(buildInfo)
   res.status(200).send('OK')
 })
 
-app.post('/kook')
-
 app.listen(port, () => {
-  console.log('listening on port: ' + port)
+  console.log('正在监听端口：' + port)
 })

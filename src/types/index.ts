@@ -1,5 +1,3 @@
-import express from 'express'
-
 export type BuildInfo = {
   user: string
   repo: string
@@ -8,8 +6,8 @@ export type BuildInfo = {
   success: boolean
 }
 
-export interface TypedRequestBody<T> extends express.Request {
-  body: T
+export interface NotificationHandler {
+  notify(info: BuildInfo): void;
 }
 
 export interface KookResponse {
